@@ -1,0 +1,23 @@
+version: '2'
+
+services:
+    web:
+        build: .
+        ports:
+            - "80:80"
+        volumes:
+            - ./..:/var/www/html
+        links:
+            - db
+    composer:
+        image: composer
+        command: install
+        volumes:
+            - ./..:/app
+    db:
+        image: mysql:5.7
+        env_file:
+            - .env
+        environment:
+            - MYSQL_ROOT_PASSWORD=${ROOT}
+            - MYSQL_DATABASE=${DATABASE}
